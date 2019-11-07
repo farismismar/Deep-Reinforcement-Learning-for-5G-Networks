@@ -13,6 +13,8 @@ Run the script `parse.py` in every folder `figures*` you create.  This generates
 
 Create a folder `figures` again.  Now run `plotting.py`.
 
+For reproducibility, please use CPU and not the GPU when running the code.
+
 ## Version history
 6/28/2019 Initial code release
 
