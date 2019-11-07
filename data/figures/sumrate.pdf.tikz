@@ -1,0 +1,55 @@
+% This file was created by matplotlib2tikz v0.6.18.
+\begin{tikzpicture}
+
+\begin{axis}[
+legend cell align={left},
+legend entries={{JB-PCIC},{Optimal}},
+legend style={at={(0.03,0.97)}, anchor=north west, draw=white!80.0!black},
+tick align=outside,
+tick pos=left,
+x grid style={white!69.01960784313725!black},
+xlabel={$M$},
+xmajorgrids,
+xmin=1, xmax=67,
+xtick={0,10,20,30,40,50,60,70},
+xticklabels={$0$,$10$,$20$,$30$,$40$,$50$,$60$,$70$},
+y grid style={white!69.01960784313725!black},
+ylabel={$C$ [bps/Hz]},
+ymajorgrids,
+ymin=8.14189899963412, ymax=22.0200101342298,
+ytick={8,10,12,14,16,18,20,22,24},
+yticklabels={$8$,$10$,$12$,$14$,$16$,$18$,$20$,$22$,$24$}
+]
+\addlegendimage{no markers, black}
+\addlegendimage{no markers, red}
+\addplot [semithick, black, mark=triangle*, mark size=3, mark options={solid}]
+table [row sep=\\]{%
+4	8.30889113717368 \\
+8	11.6208024733734 \\
+16	14.9436899539134 \\
+32	18.2597464904006 \\
+64	21.56277910592 \\
+};
+\addplot [semithick, red, dashed, mark=*, mark size=3, mark options={solid}]
+table [row sep=\\]{%
+4	8.30806020370828 \\
+8	11.6258280866722 \\
+16	14.9480065176929 \\
+32	18.2676149284105 \\
+64	21.5882452296371 \\
+};
+\path [draw=black, fill opacity=0] (axis cs:0,8.14189899963412)
+--(axis cs:0,22.0200101342298);
+
+\path [draw=black, fill opacity=0] (axis cs:1,8.14189899963412)
+--(axis cs:1,22.0200101342298);
+
+\path [draw=black, fill opacity=0] (axis cs:1,0)
+--(axis cs:67,0);
+
+\path [draw=black, fill opacity=0] (axis cs:1,1)
+--(axis cs:67,1);
+
+\end{axis}
+
+\end{tikzpicture}

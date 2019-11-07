@@ -1,0 +1,104 @@
+% This file was created by matplotlib2tikz v0.6.18.
+\begin{tikzpicture}
+
+\begin{axis}[
+tick align=outside,
+tick pos=left,
+x grid style={white!69.01960784313725!black},
+xlabel={$M$},
+xmajorgrids,
+xmin=1, xmax=67,
+xminorgrids,
+xtick={0,10,20,30,40,50,60,70},
+xticklabels={$0$,$10$,$20$,$30$,$40$,$50$,$60$,$70$},
+y grid style={white!69.01960784313725!black},
+ylabel={Normalized Transmit Power},
+ymajorgrids,
+ymin=0, ymax=0.5,
+yminorgrids,
+ytick={0,0.1,0.2,0.3,0.4,0.5},
+yticklabels={$0.0$,$0.1$,$0.2$,$0.3$,$0.4$,$0.5$}
+]
+\addplot [semithick, black, mark=triangle*, mark size=3, mark options={solid}, forget plot]
+table [row sep=\\]{%
+4	0.2 \\
+8	0.2 \\
+16	0.2 \\
+32	0.2 \\
+64	0.2 \\
+};
+\addplot [semithick, blue, dashed, mark=*, mark size=3, mark options={solid}, forget plot]
+table [row sep=\\]{%
+4	0.2 \\
+8	0.2 \\
+16	0.2 \\
+32	0.2 \\
+64	0.2 \\
+};
+\path [draw=black, fill opacity=0] (axis cs:0,0)
+--(axis cs:0,0.5);
+
+\path [draw=black, fill opacity=0] (axis cs:1,0)
+--(axis cs:1,0.5);
+
+\path [draw=black, fill opacity=0] (axis cs:1,0)
+--(axis cs:67,0);
+
+\path [draw=black, fill opacity=0] (axis cs:1,1)
+--(axis cs:67,1);
+
+\end{axis}
+
+\begin{axis}[
+axis y line=right,
+legend cell align={left},
+legend entries={{TX Power JB-PCIC},{TX Power Optimal},{SINR JB-PCIC},{SINR Optimal}},
+legend style={at={(0.97,0.03)}, anchor=south east, draw=white!80.0!black},
+tick align=outside,
+x grid style={white!69.01960784313725!black},
+xmajorgrids,
+xmin=1, xmax=67,
+xtick pos=left,
+y grid style={white!69.01960784313725!black},
+ylabel={Achievable SINR [dB]},
+ymajorgrids,
+ymin=0, ymax=67,
+ytick pos=right,
+ytick={0,10,20,30,40,50,60,70},
+yticklabels={$0$,$10$,$20$,$30$,$40$,$50$,$60$,$70$}
+]
+\addlegendimage{no markers, black}
+\addlegendimage{no markers, blue}
+\addlegendimage{no markers, red}
+\addlegendimage{no markers, green!50.0!black}
+\addplot [semithick, red, mark=triangle*, mark size=3, mark options={solid}]
+table [row sep=\\]{%
+4	24.9985380924742 \\
+8	34.9807219312038 \\
+16	44.98485140664 \\
+32	54.9673002309356 \\
+64	64.9104316056072 \\
+};
+\addplot [semithick, green!50.0!black, dashed, mark=*, mark size=3, mark options={solid}]
+table [row sep=\\]{%
+4	24.9960288185583 \\
+8	34.9958553317044 \\
+16	44.997845970129 \\
+32	54.990986664799 \\
+64	64.9870923012588 \\
+};
+\path [draw=black, fill opacity=0] (axis cs:0,0)
+--(axis cs:0,67);
+
+\path [draw=black, fill opacity=0] (axis cs:1,0)
+--(axis cs:1,67);
+
+\path [draw=black, fill opacity=0] (axis cs:1,0)
+--(axis cs:67,0);
+
+\path [draw=black, fill opacity=0] (axis cs:1,1)
+--(axis cs:67,1);
+
+\end{axis}
+
+\end{tikzpicture}
