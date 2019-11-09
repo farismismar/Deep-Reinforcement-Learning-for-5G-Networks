@@ -266,9 +266,9 @@ for M in X:
 Y.to_csv('figures/convergence_vs_ant.csv', index=False)
 df_convergence = Y.groupby('M')['episode'].nth(10).reset_index() # close to median
 df_convergence = pd.merge(df_convergence, Y)
-df_convergence['episode'] /= df_convergence['episode'].sum()   
+df_convergence.loc[:, 'episode'] /= df_convergence['episode'].iloc[-1]
 
-plot_primary(df_convergence['M'], df_convergence['episode'], r'$M$', r'Normalized Convergence Episode ($\zeta$)', 0, 0.5, 'convergence.pdf')
+plot_primary(df_convergence['M'], df_convergence['episode'], r'$M$', r'Normalized Convergence Episode ($\zeta$)', 0.2, 1, 'convergence.pdf')
 
 #X=np.log2(np.array(X)).astype(int)
 tx_power_4_optimal_agg = 10*np.log10(10 ** (np.nanmax(tx_power_4_optimal) / 10.))
@@ -280,7 +280,7 @@ tx_power_64_optimal_agg = 10*np.log10(10 ** (np.nanmax(tx_power_64_optimal) / 10
 sinr_avg_4_optimal = 10*np.log10(10 ** (np.nanmax(sinr_4_optimal) / 10.))
 sinr_avg_8_optimal = 10*np.log10(10 ** (np.nanmax(sinr_8_optimal) / 10.))
 sinr_avg_16_optimal = 10*np.log10(10 ** (np.nanmax(sinr_16_optimal) / 10.))
-sinr_avg_32_optimal = 10*np.log10(10 **  (np.nanmax(sinr_32_optimal) / 10.))
+sinr_avg_32_optimal = 10*np.log10(10 ** (np.nanmax(sinr_32_optimal) / 10.))
 sinr_avg_64_optimal = 10*np.log10(10 ** (np.nanmax(sinr_64_optimal) / 10.))
 
 Y1 = [tx_power_4_agg, tx_power_8_agg, tx_power_16_agg, tx_power_32_agg, tx_power_64_agg]
@@ -288,14 +288,13 @@ Y2 = [sinr_avg_4, sinr_avg_8, sinr_avg_16, sinr_avg_32, sinr_avg_64]
 Y3 = [tx_power_4_optimal_agg, tx_power_8_optimal_agg, tx_power_16_optimal_agg, tx_power_32_optimal_agg, tx_power_64_optimal_agg] # power optimal
 Y4 = [sinr_avg_4_optimal, sinr_avg_8_optimal, sinr_avg_16_optimal, sinr_avg_32_optimal, sinr_avg_64_optimal] # sinr optimal
 
-
 # Normalize Y1 and Y3
-Y1 = Y1/ sum(Y1)
-Y3 = Y3/ sum(Y3)
-Y1 = [round(x, 2) for x in Y1] 
-Y3 = [round(x, 2) for x in Y3] 
+Y1 = np.array(Y1) / np.array(Y3)
+Y3 = np.array(Y3) / np.array(Y3)
+Y1 = [round(x, 1) for x in Y1] 
+Y3 = [round(x, 1) for x in Y3] 
 
-plot_secondary(X,Y1,Y3,Y2,Y4, r'$M$', r'Normalized Transmit Power', r'Achievable SINR [dB]', 0.5, 67, 'achievable_sinr_power.pdf')
+plot_secondary(X,Y1,Y3,Y2,Y4, r'$M$', r'Normalized Transmit Power', r'Achievable SINR [dB]', 1.2, 67, 'achievable_sinr_power.pdf')
 
 
 ##############################
