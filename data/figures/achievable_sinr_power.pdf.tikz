@@ -2,102 +2,105 @@
 \begin{tikzpicture}
 
 \begin{axis}[
+width=3.6in,
+height=2.8in,
 tick align=outside,
 tick pos=left,
-x grid style={white!69.01960784313725!black},
+x grid style={white!69.01960784313725!black, dashed},
 xlabel={$M$},
-xmajorgrids,
-xmin=1, xmax=67,
-xminorgrids,
-xtick={0,10,20,30,40,50,60,70},
-xticklabels={$0$,$10$,$20$,$30$,$40$,$50$,$60$,$70$},
-y grid style={white!69.01960784313725!black},
+xmin=0, xmax=64,
+xtick={4,8,16,32,64},
+%xticklabels={4,8,16,32,64},
+y grid style={white!69.01960784313725!black, dashed},
 ylabel={Normalized Transmit Power},
-ymajorgrids,
-ymin=0, ymax=0.5,
-yminorgrids,
-ytick={0,0.1,0.2,0.3,0.4,0.5},
-yticklabels={$0.0$,$0.1$,$0.2$,$0.3$,$0.4$,$0.5$}
+ymin=0, ymax=1.3,
+ytick={0,0.2,...,1.2},
+grid=both,
 ]
-\addplot [semithick, black, mark=triangle*, mark size=3, mark options={solid}, forget plot]
+
+\addplot [line width=1.2pt, black, mark=triangle*, mark size=3, mark phase=1, mark repeat=2, mark options={solid}]
 table [row sep=\\]{%
-4	0.2 \\
-8	0.2 \\
-16	0.2 \\
-32	0.2 \\
-64	0.2 \\
+4	1 \\
+8	1 \\
+16	1 \\
+32	1 \\
+64	1 \\
 };
-\addplot [semithick, blue, dashed, mark=*, mark size=3, mark options={solid}, forget plot]
+\addplot [line width=1.2pt, blue, dashed, mark=*, mark size=3, mark phase=2, mark repeat=2, mark options={solid}]
 table [row sep=\\]{%
-4	0.2 \\
-8	0.2 \\
-16	0.2 \\
-32	0.2 \\
-64	0.2 \\
+4	1 \\
+8	1 \\
+16	1 \\
+32	1 \\
+64	1 \\
 };
-\path [draw=black, fill opacity=0] (axis cs:0,0)
---(axis cs:0,0.5);
+% \path [draw=black, fill opacity=0] (axis cs:0,40)
+% --(axis cs:0,47);
 
-\path [draw=black, fill opacity=0] (axis cs:1,0)
---(axis cs:1,0.5);
+% \path [draw=black, fill opacity=0] (axis cs:1,40)
+% --(axis cs:1,47);
 
-\path [draw=black, fill opacity=0] (axis cs:1,0)
---(axis cs:67,0);
+% \path [draw=black, fill opacity=0] (axis cs:1,0)
+% --(axis cs:67,0);
 
-\path [draw=black, fill opacity=0] (axis cs:1,1)
---(axis cs:67,1);
+% \path [draw=black, fill opacity=0] (axis cs:1,1)
+% --(axis cs:67,1);
 
 \end{axis}
 
 \begin{axis}[
+width=3.6in,
+height=2.8in,
 axis y line=right,
+axis line style={-},
 legend cell align={left},
-legend entries={{TX Power JB-PCIC},{TX Power Optimal},{SINR JB-PCIC},{SINR Optimal}},
-legend style={at={(0.97,0.03)}, anchor=south east, draw=white!80.0!black},
-tick align=outside,
-x grid style={white!69.01960784313725!black},
-xmajorgrids,
-xmin=1, xmax=67,
-xtick pos=left,
-y grid style={white!69.01960784313725!black},
+legend entries={{TX Power JB-PCIC},{TX Power Upper Bound},{SINR JB-PCIC},{SINR Upper Bound}},
+legend style={at={(0.27,0.39)}, anchor=north west, draw=white!80.0!black},
+%tick align=outside,
+%x grid style={white!69.01960784313725!black},
+xtick={4,8,16,32,64},
+xticklabels={,,},
+xmin=0, xmax=64,
+%xtick pos=left,
+%y grid style={white!69.01960784313725!black},
 ylabel={Achievable SINR [dB]},
-ymajorgrids,
-ymin=0, ymax=67,
+ymin=0, ymax=70,
+ytick={0,10,...,70},
 ytick pos=right,
-ytick={0,10,20,30,40,50,60,70},
-yticklabels={$0$,$10$,$20$,$30$,$40$,$50$,$60$,$70$}
+%grid=both,
 ]
-\addlegendimage{no markers, black}
-\addlegendimage{no markers, blue}
-\addlegendimage{no markers, red}
-\addlegendimage{no markers, green!50.0!black}
-\addplot [semithick, red, mark=triangle*, mark size=3, mark options={solid}]
+ \addlegendimage{black,mark=triangle*}
+ \addlegendimage{blue,mark=*}
+ \addlegendimage{red,mark=triangle}
+ \addlegendimage{green!50.0!black,mark=*}
+
+\addplot [line width=1.2pt, red, mark=triangle, mark size=3, mark phase=1, mark repeat=2, mark options={solid}]
 table [row sep=\\]{%
-4	24.9985380924742 \\
-8	34.9807219312038 \\
-16	44.98485140664 \\
-32	54.9673002309356 \\
-64	64.9104316056072 \\
+4	24.9805437813393 \\
+8	34.9915904013779 \\
+16	44.9667559508266 \\
+32	54.773338631735 \\
+64	64.7985759935161 \\
 };
-\addplot [semithick, green!50.0!black, dashed, mark=*, mark size=3, mark options={solid}]
+\addplot [line width=1.2pt, green!50.0!black, dashed, mark=*, mark size=3, mark phase=2, mark repeat=2, mark options={solid}]
 table [row sep=\\]{%
-4	24.9960288185583 \\
-8	34.9958553317044 \\
-16	44.997845970129 \\
-32	54.990986664799 \\
-64	64.9870923012588 \\
+4	24.9977288984133 \\
+8	34.9971300736623 \\
+16	44.9974758502695 \\
+32	54.9307821934073 \\
+64	64.9662106521746 \\
 };
-\path [draw=black, fill opacity=0] (axis cs:0,0)
---(axis cs:0,67);
+% \path [draw=black, fill opacity=0] (axis cs:0,20)
+% --(axis cs:0,67);
 
-\path [draw=black, fill opacity=0] (axis cs:1,0)
---(axis cs:1,67);
+% \path [draw=black, fill opacity=0] (axis cs:1,20)
+% --(axis cs:1,67);
 
-\path [draw=black, fill opacity=0] (axis cs:1,0)
---(axis cs:67,0);
+% \path [draw=black, fill opacity=0] (axis cs:1,0)
+% --(axis cs:67,0);
 
-\path [draw=black, fill opacity=0] (axis cs:1,1)
---(axis cs:67,1);
+% \path [draw=black, fill opacity=0] (axis cs:1,1)
+% --(axis cs:67,1);
 
 \end{axis}
 

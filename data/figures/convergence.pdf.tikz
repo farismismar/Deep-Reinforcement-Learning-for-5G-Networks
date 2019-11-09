@@ -13,23 +13,23 @@ xticklabels={$0$,$10$,$20$,$30$,$40$,$50$,$60$,$70$},
 y grid style={white!69.01960784313725!black},
 ylabel={Normalized Convergence Episode ($\zeta$)},
 ymajorgrids,
-ymin=0, ymax=0.5,
-ytick={0,0.1,0.2,0.3,0.4,0.5},
-yticklabels={$0.0$,$0.1$,$0.2$,$0.3$,$0.4$,$0.5$}
+ymin=0.2, ymax=1,
+ytick={0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1},
+yticklabels={$0.2$,$0.3$,$0.4$,$0.5$,$0.6$,$0.7$,$0.8$,$0.9$,$1.0$}
 ]
 \addplot [semithick, black, mark=triangle*, mark size=3, mark options={solid}, forget plot]
 table [row sep=\\]{%
-4	0.113679245283019 \\
-8	0.119811320754717 \\
-16	0.173584905660377 \\
-32	0.212028301886792 \\
-64	0.380896226415094 \\
+4	0.298452012383901 \\
+8	0.314551083591331 \\
+16	0.455727554179567 \\
+32	0.556656346749226 \\
+64	1 \\
 };
-\path [draw=black, fill opacity=0] (axis cs:0,0)
---(axis cs:0,0.5);
+\path [draw=black, fill opacity=0] (axis cs:0,0.2)
+--(axis cs:0,1);
 
-\path [draw=black, fill opacity=0] (axis cs:1,0)
---(axis cs:1,0.5);
+\path [draw=black, fill opacity=0] (axis cs:1,0.2)
+--(axis cs:1,1);
 
 \path [draw=black, fill opacity=0] (axis cs:1,0)
 --(axis cs:67,0);
