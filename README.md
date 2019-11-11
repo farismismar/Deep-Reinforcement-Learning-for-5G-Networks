@@ -7,7 +7,7 @@ For data, start by creating a folder `figures` in the same directory as your for
 
 For optimal, uncomment lines 428 and 437 from `main.py`.  Comment out lines 426, 439, 440, 442.  When run is complete, rename the `figures` folder to become `figures M=m optimal` after completion, where `m` takes values of M as shown above.
 
-For optimal, uncomment lines 426, 439, 440, 442 from `main.py`.  Comment out lines 428 and 437.  When run is complete, rename the `figures` folder to become `figures M=m`.
+For the proposed solution, uncomment lines 426, 439, 440, 442 from `main.py`.  Comment out lines 428 and 437.  When run is complete, rename the `figures` folder to become `figures M=m`.
 
 Run the script `parse.py` in every folder `figures*` you create.  This generates a few intermediary files.
 
