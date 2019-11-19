@@ -11,7 +11,7 @@ For the proposed solution, uncomment lines 426, 439, 440, 442 from `main.py`.  C
 
 Run the script `parse.py` in every folder `figures*` you create.  This generates a few intermediary files.
 
-Create a folder `figures` again.  Now run `plotting.py`.
+Create a folder `figures` again.  Now run `plotting.py`.  If you have any problems related to LaTeX plotting, change all the lines `matplotlib.rcParams['text.usetex'] = True` to `matplotlib.rcParams['text.usetex'] = False` then re-run.
 
 For reproducibility, please use CPU and not the GPU when running the code.
 
