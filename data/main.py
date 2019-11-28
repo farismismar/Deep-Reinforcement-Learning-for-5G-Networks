@@ -24,8 +24,10 @@ import matplotlib.ticker as tick
 from environment import radio_environment
 from DQNLearningAgent import DQNLearningAgent as QLearner # Deep with GPU and CPU fallback
 
-MAX_EPISODES_DEEP = 2500
-MAX_EPISODES_OPTIMAL = 2500
+import time
+
+MAX_EPISODES_DEEP = 500
+MAX_EPISODES_OPTIMAL = 500
 
 # Succ: 
 
@@ -426,6 +428,7 @@ radio_frame = 10
 #seeds = np.arange(50).astype(int).tolist() 
 
 seeds = [0] # for the optimal case.
+start_time = time.time()
 
 for seed in seeds:
     print('Now running seed: {}'.format(seed))
@@ -439,6 +442,15 @@ for seed in seeds:
     #agent = QLearner(seed=seed) # only for the deep
     #run_agent_deep(env)
 #    K.clear_session() # free up GPU memory
- #   del agent  
+    #del agent  
 
 ########################################################################################
+ 
+end_time = time.time()
+
+filename = 'figures/timing_M={}.txt'.format(env.M_ULA)
+file = open(filename, 'w')
+duration = 1000. * (end_time - start_time)
+print('Execution time: {:4f} ms.\n'.format(duration))
+file.write('Execution time: {:4f} ms.\n'.format(duration))
+file.close()
