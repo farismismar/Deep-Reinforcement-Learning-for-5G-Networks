@@ -19,3 +19,5 @@ For reproducibility, please use CPU and not the GPU when running the code.
 6/28/2019 Initial code release
 
 11/6/2019 Version 2.  Normalized the power and the convergence episodes.  I choose the episode close to the median to determine convergence.
+
+12/15/2019 Version 2.1.  Introduced the optimal solution for voice.
