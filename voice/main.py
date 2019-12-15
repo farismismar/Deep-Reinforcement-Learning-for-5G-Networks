@@ -19,17 +19,108 @@ from colorama import Fore, Back, Style
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tick
+import time
 
 from environment import radio_environment
 from DQNLearningAgent import DQNLearningAgent as QLearner # Deep with GPU and CPU fallback
 #from QLearningAgent import QLearningAgent as QLearner
 
-MAX_EPISODES = 5000
+MAX_EPISODES = 5000 # for all but deep
 MAX_EPISODES_DEEP = 5000
 
 os.chdir('/Users/farismismar/Desktop/voice')
 
 ##    ##    ##    ##    ##    ##    ##    ##    ##    ##    ##    ##    ##    ##    ##    ##    ##    ##    ##    ##    ##
+
+def run_agent_optimal(env, plotting=True):
+    max_episodes_to_run = MAX_EPISODES
+    max_timesteps_per_episode = radio_frame
+                    
+    print('Ep.         | TS | Recv. SINR (srv) | Recv. SINR (int) | Serv. Tx Pwr | Int. Tx Pwr')
+    print('--'*54)
+    
+    # Implement the Q-learning algorithm
+    for episode_index in 1 + np.arange(max_episodes_to_run):
+        observation = env.reset()
+      #  observation = np.reshape(observation, [1, agent._state_size])
+        
+        (_, _, _, _, pt_serving, pt_interferer) = observation
+        action = -1
+                
+        sinr_progress = [] # needed for the SINR based on the episode.
+        sinr_ue2_progress = [] # needed for the SINR based on the episode.
+        serving_tx_power_progress = []
+        interfering_tx_power_progress = []
+
+        # Let us know how we did.
+        for timestep_index in 1 + np.arange(max_timesteps_per_episode):
+            # Take a step
+            next_observation, reward, done, abort = env.step(action)
+            (x_ue_1, y_ue_1, x_ue_2, y_ue_2, pt_serving, pt_interferer) = next_observation            
+            
+            # This environment step above will not do anything, besides moving the UEs around
+            # so here is the work:
+            
+            # Exhaustive search across all sets...
+#            pt_serving_orig = pt_serving
+ #           pt_interferer_orig = pt_interferer
+            max_sinr = -np.inf
+            max_sinr_ue1_sinr = -np.inf
+            max_sinr_ue2_sinr = -np.inf
+            
+            for pc_1 in [-3, -1, 1, 3]:
+                pt_serving_candidate = pt_serving * 10 ** (pc_1/10.)
+                for pc_2 in [-3, -1, 1, 3]:
+                    pt_int_candidate = pt_interferer * 10 ** (pc_2/10.)
+                    received_power, interference_power, received_sinr = env._compute_rf(x_ue_1, y_ue_1, pt_serving_candidate, pt_int_candidate, is_ue_2=False)
+                    received_power_ue2, interference_power_ue2, received_ue2_sinr = env._compute_rf(x_ue_2, y_ue_2, pt_serving_candidate, pt_int_candidate, is_ue_2=True)
+                    if (received_sinr + received_ue2_sinr > max_sinr): # dB
+                        max_sinr = received_sinr + received_ue2_sinr
+                        max_sinr_ue1_sinr = received_sinr
+                        max_sinr_ue2_sinr = received_ue2_sinr
+#                                print('Current max SINR product is: {:.2f} dB'.format(max_sinr))
+                  #      env.received_sinr_dB = received_sinr
+                  #      env.received_ue2_sinr_dB = received_ue2_sinr
+                        pt_serving = pt_serving_candidate
+                        pt_interferer = pt_int_candidate
+
+            # solution is found.  Use it
+            received_sinr = max_sinr_ue1_sinr
+            received_ue2_sinr = max_sinr_ue2_sinr
+            
+            # Let us know how we did.
+            print('{}/{} | {} | {:.2f} dB | {:.2f} dB | {:.2f} W | {:.2f} W'.format(episode_index, max_episodes_to_run, 
+                                                                                      timestep_index,
+                                                                                      received_sinr, received_ue2_sinr,
+                                                                                      pt_serving, pt_interferer))
+
+            abort = (pt_serving > env.max_tx_power) or (pt_interferer > env.max_tx_power_interference) or (received_sinr < env.min_sinr) or (received_ue2_sinr < env.min_sinr) \
+                or (received_sinr > 15) or (received_ue2_sinr > 15) or (max_sinr < 0) #or (received_sinr < 10) or (received_ue2_sinr < 10) # an extra condition
+
+            if abort:
+                break
+
+            # Record all in dB/dBm
+            sinr_progress.append(received_sinr)
+            sinr_ue2_progress.append(received_ue2_sinr)
+            serving_tx_power_progress.append(10*np.log10(pt_serving*1e3))
+            interfering_tx_power_progress.append(10*np.log10(pt_interferer*1e3))
+
+        done = (pt_serving <= env.max_tx_power) and (pt_serving >= 0) and (pt_interferer <= env.max_tx_power_interference) and (pt_interferer >= 0) and \
+            (received_sinr >= env.min_sinr) and (received_ue2_sinr >= env.min_sinr) and (received_sinr >= env.sinr_target) and (received_ue2_sinr >= env.sinr_target)
+
+        successful = (done == True) and (timestep_index > max_timesteps_per_episode - 1)
+        if successful:
+            print(Fore.GREEN + 'SUCCESS.')
+            print(Style.RESET_ALL)
+        else:
+            print(Fore.RED + 'FAILED TO REACH TARGET.')
+            print(Style.RESET_ALL)
+        
+        # Plot the episode...
+        if (plotting and successful): 
+            plot_measurements(sinr_progress, sinr_ue2_progress, serving_tx_power_progress, interfering_tx_power_progress, max_timesteps_per_episode, episode_index, episode_index)
+
 
 
 def run_agent_tabular(env, plotting=True):
@@ -577,6 +668,10 @@ def plot_actions(actions, max_timesteps_per_episode, episode_index, max_episodes
 radio_frame = 20
 seeds = np.arange(100).tolist()
 
+seeds = [98]
+
+start_time = time.time()
+
 for seed in seeds:
 
     random.seed(seed)
@@ -585,8 +680,18 @@ for seed in seeds:
     env = radio_environment(seed=seed)
     agent = QLearner(seed=seed)
 
-#    run_agent_fpa(env)
+    run_agent_fpa(env)
 #    run_agent_tabular(env)
-    run_agent_deep(env)
+#    run_agent_deep(env)
+#    run_agent_optimal(env)
 
 ########################################################################################
+
+end_time = time.time()
+
+filename = 'figures/timing_M={}.txt'.format(env.M_ULA)
+file = open(filename, 'w')
+duration = 1000. * (end_time - start_time)
+print('Execution time: {:4f} ms.\n'.format(duration))
+file.write('Execution time: {:4f} ms.\n'.format(duration))
+file.close()

@@ -21,7 +21,7 @@ import pandas as pd
 
 os.chdir('/Users/farismismar/Desktop/voice')
 
-def generate_ccdf(data1, data2, data3):
+def generate_ccdf(data0, data1, data2, data3):
     fig = plt.figure(figsize=(10.24,7.68))
     
     plt.rc('text', usetex=True)
@@ -33,7 +33,7 @@ def generate_ccdf(data1, data2, data3):
         r'\usepackage{amssymb}']
     
     num_bins = 50
-    for data in [data1, data2, data3]:
+    for data in [data0, data1, data2, data3]:
        
         data_ = data
 
@@ -44,7 +44,7 @@ def generate_ccdf(data1, data2, data3):
         ax = fig.gca()
         ax.plot(bin_edges, ccdf)
 
-    labels = ['Tabular $Q$-learning', 'Deep $Q$-learning (proposed)', 'Fixed Power Allocation (FPA)']
+    labels = ['Optimal', 'Deep $Q$-learning (proposed)', 'Tabular $Q$-learning', 'Fixed Power Allocation (FPA)']
     ax.set_xlabel('$\gamma$')
     ax.set_ylabel('$1 - F_\Gamma(\gamma)$')        
     ax.set_ylim([0,1])
@@ -56,7 +56,7 @@ def generate_ccdf(data1, data2, data3):
     plt.close(fig)   
 
 
-def _____generate_ccdf_(data1, data2, data3):
+def _____generate_ccdf_(data0, data1, data2, data3):
     fig = plt.figure(figsize=(10.24,7.68))
     
     plt.rc('text', usetex=True)
@@ -67,7 +67,7 @@ def _____generate_ccdf_(data1, data2, data3):
         r'\usepackage{amsmath}',
         r'\usepackage{amssymb}']
     
-    for data in [data1, data2, data3]:
+    for data in [data0, data1, data2, data3]:
         # sort the data:
         data_sorted = np.sort(data)
         
@@ -80,7 +80,7 @@ def _____generate_ccdf_(data1, data2, data3):
         ax.plot(data_sorted, 1 - p)
     
 
-    labels = ['Tabular $Q$-learning', 'Deep $Q$-learning (proposed)', 'Fixed Power Allocation (FPA)']
+    labels = ['Optimal', 'Deep $Q$-learning (proposed)', 'Tabular $Q$-learning', 'Fixed Power Allocation (FPA)']
     ax.set_xlabel('$\gamma$')
     ax.set_ylabel('$1 - F_\Gamma(\gamma)$')        
     ax.legend(labels, loc="lower left")
@@ -105,16 +105,19 @@ def main():
     ue_deep_ue1 = read_output('figures_deep/ue_1_sinr.txt')
     ue_tabular_ue1 = read_output('figures_tabular/ue_1_sinr.txt')
     ue_fpa_ue1 = read_output('figures_fpa/ue_1_sinr.txt')
+    ue_opt_ue1 = read_output('figures_optimal/ue_1_sinr.txt')
     
     ue_deep_ue2 = read_output('figures_deep/ue_2_sinr.txt')
     ue_tabular_ue2 = read_output('figures_tabular/ue_2_sinr.txt')
     ue_fpa_ue2 = read_output('figures_fpa/ue_2_sinr.txt')
+    ue_opt_ue2 = read_output('figures_optimal/ue_2_sinr.txt')
     
     ue_deep = np.array(ue_deep_ue1+ue_deep_ue2)
     ue_tabular = np.array(ue_tabular_ue1+ue_tabular_ue2)
     ue_fpa = np.array(ue_fpa_ue1+ue_fpa_ue2)
+    ue_opt = np.array(ue_opt_ue1+ue_opt_ue2)
 
-    generate_ccdf(ue_tabular, ue_deep, ue_fpa)
+    generate_ccdf(ue_opt, ue_deep, ue_tabular, ue_fpa)
     
 if __name__ == '__main__':
     main()
